@@ -102,6 +102,7 @@ test('financial request validation requires a valid scheme and positive amount',
     schemeId: '507f1f77bcf86cd799439011',
     loanAmount: 120000
   });
+  assert.equal(validateFinancialRequest({ schemeId: 'DEMO-MICRO-BUSINESS-001', loanAmount: 120000 }).schemeId, 'DEMO-MICRO-BUSINESS-001');
   assert.throws(() => validateFinancialRequest({ schemeId: 'bad', loanAmount: 10000 }), /valid scheme identifier/);
   assert.throws(() => validateFinancialRequest({
     schemeId: '507f1f77bcf86cd799439011',

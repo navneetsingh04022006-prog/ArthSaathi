@@ -4,7 +4,7 @@ export function validateFinancialRequest(input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
     throw createValidationError('Request body must be an object.');
   }
-  if (!input.schemeId || !mongoose.isValidObjectId(input.schemeId)) {
+  if (!input.schemeId || (!mongoose.isValidObjectId(input.schemeId) && !isSchemeBusinessId(input.schemeId))) {
     throw createValidationError('schemeId must be a valid scheme identifier.');
   }
 
@@ -25,4 +25,8 @@ export function createValidationError(message, code = 'VALIDATION_ERROR') {
 
 export function isPositiveFiniteNumber(value) {
   return value !== '' && Number.isFinite(Number(value)) && Number(value) > 0;
+}
+
+function isSchemeBusinessId(value) {
+  return typeof value === 'string' && /^[A-Z0-9]+(?:[-_][A-Z0-9]+)+$/i.test(value);
 }
