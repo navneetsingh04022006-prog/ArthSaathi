@@ -1,6 +1,6 @@
 # ArthSaathi
 # AI-Driven Scheme Matching Platform for Marginalized Entrepreneurs
-
+chhavi
 An intelligent, multilingual, and explainable digital platform that helps marginalized entrepreneurs discover suitable government financial assistance schemes, estimate loan repayments, and locate authorized Channel Partners.
 
 Built for **Smart India Hackathon (SIH)**, this project addresses the challenge of improving awareness, accessibility, and transparency in government-backed financial support programs.
