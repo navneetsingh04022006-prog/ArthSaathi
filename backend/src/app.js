@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import env from './config/env.js';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware.js';
 import eligibilityRouter from './routes/eligibility.routes.js';
+import financialRouter from './routes/financial.routes.js';
 import healthRouter from './routes/health.routes.js';
 import recommendationRouter from './routes/recommendation.routes.js';
 import schemeRouter from './routes/scheme.routes.js';
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: false, limit: '100kb' }));
 
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/eligibility', eligibilityRouter);
+app.use('/api/v1/calculations', financialRouter);
 app.use('/api/v1/recommendations', recommendationRouter);
 app.use('/api/v1/schemes', schemeRouter);
 app.use(notFoundHandler);
