@@ -1,5 +1,7 @@
 import { findRelevantPartners, getPartner, listPartners } from '../services/partner.service.js';
+import { findNearbyPartners } from '../services/routing.service.js';
 import { validatePartnerId, validatePartnerListQuery } from '../validators/partner.validator.js';
+import { validateNearbyPartnerQuery } from '../validators/routing.validator.js';
 
 export async function listPartnersController(request, response, next) {
   try {
@@ -29,6 +31,20 @@ export async function listSchemePartnersController(request, response, next) {
       success: true,
       data,
       message: data.message || 'Relevant partners retrieved successfully.'
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listNearbySchemePartnersController(request, response, next) {
+  try {
+    const search = validateNearbyPartnerQuery(request.params.schemeId, request.query);
+    const data = await findNearbyPartners(search);
+    response.status(200).json({
+      success: true,
+      data,
+      message: data.message || 'Nearby partners retrieved successfully.'
     });
   } catch (error) {
     next(error);

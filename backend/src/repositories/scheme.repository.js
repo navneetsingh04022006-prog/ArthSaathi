@@ -26,3 +26,7 @@ export function findSchemeById(id) {
 
   return Scheme.findById(id).lean();
 }
+
+export function findSchemeBySchemeId(schemeId) {
+  return Scheme.findOne({ schemeId: schemeId.toUpperCase() }).lean();
+}

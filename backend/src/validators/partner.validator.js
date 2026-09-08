@@ -107,3 +107,10 @@ function validationError(message) {
   error.code = 'VALIDATION_ERROR';
   return error;
 }
+
+export function validateServiceType(service) {
+  if (service !== undefined && !allowedServiceTypes.has(service)) {
+    throw validationError('service is not supported.');
+  }
+  return service;
+}

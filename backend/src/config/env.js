@@ -8,7 +8,11 @@ const env = {
   mongodbUri: process.env.MONGODB_URI || '',
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   rateLimitWindowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
-  rateLimitMax: Number(process.env.RATE_LIMIT_MAX || 100)
+  rateLimitMax: Number(process.env.RATE_LIMIT_MAX || 100),
+  defaultPartnerSearchRadiusKm: Number(process.env.DEFAULT_PARTNER_SEARCH_RADIUS_KM || 10),
+  maxPartnerSearchRadiusKm: Number(process.env.MAX_PARTNER_SEARCH_RADIUS_KM || 100),
+  defaultPartnerResultLimit: Number(process.env.DEFAULT_PARTNER_RESULT_LIMIT || 20),
+  maxPartnerResultLimit: Number(process.env.MAX_PARTNER_RESULT_LIMIT || 100)
 };
 
 export function requireEnvironment() {

@@ -18,6 +18,7 @@ const demoPartners = [
       postalCode: '000000',
       country: 'India'
     },
+    location: { latitude: 20, longitude: 75 },
     supportedSchemes: ['DEMO-MICRO-BUSINESS-001'],
     supportedCategories: ['BUSINESS'],
     supportedPurposes: ['DEMO_BUSINESS_START'],
@@ -40,6 +41,7 @@ const demoPartners = [
       postalCode: '000001',
       country: 'India'
     },
+    location: { latitude: 20.01, longitude: 75.01 },
     supportedSchemes: ['DEMO-MICRO-BUSINESS-001'],
     supportedCategories: ['BUSINESS'],
     supportedPurposes: ['DEMO_BUSINESS_START'],
