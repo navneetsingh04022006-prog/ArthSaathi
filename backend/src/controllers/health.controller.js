@@ -1,0 +1,9 @@
+export function getHealth(_request, response) {
+  response.status(200).json({
+    success: true,
+    data: {
+      status: 'ok'
+    },
+    message: 'ArthSaathi API is running.'
+  });
+}
