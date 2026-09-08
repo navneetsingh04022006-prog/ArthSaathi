@@ -13,7 +13,17 @@ export function validateEligibilityRequest(input = {}) {
     throw createValidationError('applicant must be an object.');
   }
 
-  const applicant = { ...input.applicant };
+  const applicant = validateApplicantInput(input.applicant);
+
+  return { schemeId: input.schemeId, applicant };
+}
+
+export function validateApplicantInput(input = {}) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    throw createValidationError('applicant must be an object.');
+  }
+
+  const applicant = { ...input };
   for (const field of numericFields) {
     if (applicant[field] === undefined) continue;
     if (!Number.isFinite(Number(applicant[field])) || Number(applicant[field]) < 0) {
@@ -34,7 +44,7 @@ export function validateEligibilityRequest(input = {}) {
     throw createValidationError('educationStatus must be a boolean.');
   }
 
-  return { schemeId: input.schemeId, applicant };
+  return applicant;
 }
 
 function createValidationError(message) {

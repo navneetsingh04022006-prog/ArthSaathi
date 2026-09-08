@@ -1,56 +1,71 @@
 # ArthSaathi Development Memory
 
 ## Current Phase
-Phase 2 - Eligibility Rules Engine
+Phase 3 - Scheme Recommendation Engine
 
 ## Status
-Phase 2 implemented and tested.
+Phase 3 implemented and tested.
 
 ## Completed Work
 
-- Implemented a deterministic eligibility engine independent of AI and database access.
-- Added configurable income, purpose, loan amount, age, education, beneficiary category, gender, registration, state, and district rule evaluation where configured.
-- Added applicant input validation with distinct validation errors for malformed input.
-- Added structured eligible/ineligible results with reasons, failed rule names, and missing requirements.
-- Added `POST /api/v1/eligibility/evaluate` using the existing controller, service, repository, validator, route, and centralized error-handling conventions.
-- Preserved the existing Scheme model and Phase 1 scheme retrieval behavior.
+- Added a deterministic recommendation service that fetches candidate schemes through the existing repository layer.
+- Reused the Phase 2 `evaluateEligibility` engine as the hard eligibility filter; no duplicate eligibility policy was added.
+- Added configurable purpose, financial-range, loan-to-project, and location ranking factors.
+- Added bounded 0-100 Scheme Match Scores with deterministic tie-breaking by scheme ID.
+- Added structured recommendation reasons, score breakdowns, financial metadata, source metadata, and eligibility details.
+- Added neutral handling and explanations for missing optional location, project cost, and partner data.
+- Added `POST /api/v1/recommendations` using the existing controller, service, validator, route, repository, and centralized error-handling conventions.
+- Preserved the existing Scheme model, Phase 1 retrieval APIs, and Phase 2 eligibility API.
 
 ## Files Created
 
-- `backend/src/validators/eligibility.validator.js`
-- `backend/src/services/eligibility.engine.js`
-- `backend/src/services/eligibility.service.js`
-- `backend/src/controllers/eligibility.controller.js`
-- `backend/src/routes/eligibility.routes.js`
-- `backend/test/eligibility.test.js`
+- `backend/src/config/recommendation.js`
+- `backend/src/services/recommendation.ranker.js`
+- `backend/src/services/recommendation.service.js`
+- `backend/src/controllers/recommendation.controller.js`
+- `backend/src/routes/recommendation.routes.js`
+- `backend/src/validators/recommendation.validator.js`
+- `backend/test/recommendation.test.js`
 
 ## Files Modified
 
 - `backend/src/app.js`
+- `backend/src/validators/eligibility.validator.js`
 - `docs/memory.md`
 
 ## API Changes
 
-- Added `POST /api/v1/eligibility/evaluate`.
-- Request fields: `schemeId` and `applicant`.
-- Response uses the existing `{ success, data, message }` and `{ success, error }` formats.
+- Added `POST /api/v1/recommendations`.
+- Accepts an applicant object either as the request body or under `applicant`; `loanAmount` is normalized to the Phase 2 `requestedLoanAmount` field.
+- Returns ranked `recommendations`, `totalCandidates`, `totalEligible`, and a clean no-match message when appropriate.
+- Recommendation responses use the existing `{ success, data, message }` and `{ success, error }` formats.
 - Invalid applicant input returns `400` with `VALIDATION_ERROR`.
-- A missing scheme returns `404` with `SCHEME_NOT_FOUND` after repository lookup.
+- Existing `POST /api/v1/eligibility/evaluate` remains unchanged.
+
+## Ranking Configuration
+
+- `purposeFit`: 35
+- `financialFit`: 25
+- `loanAmountFit`: 25
+- `locationFit`: 15
+- Partner availability is not scored because the partner module/data does not exist yet.
+- Weights are centralized in `backend/src/config/recommendation.js` and normalized over active factors.
 
 ## Tests
 
-- Backend test suite: 17 tests passed.
-- Eligibility unit tests cover configured rule boundaries, unsupported values, missing requirements, combined failures, optional rules, validation, and determinism.
-- Existing Phase 1 health and scheme tests passed.
+- Backend test suite: 25 tests passed.
+- Phase 3 tests cover eligibility filtering, purpose and financial ranking, configurable weights, deterministic scores, reasons, missing optional data, empty/no-match results, validation, and API errors.
+- Existing Phase 1 and Phase 2 tests passed.
 - Backend ESLint: passed.
-- Static error checks for new eligibility files: no errors found.
+- Static error checks: no errors found.
 
 ## Known Issues
 
-- Live MongoDB-backed eligibility evaluation was not run because this environment has no configured `MONGODB_URI` or local MongoDB executable.
-- The repository still contains explicitly labelled demo scheme data; authoritative government scheme data is not claimed.
+- Live MongoDB-backed recommendation retrieval was not run because this environment has no configured `MONGODB_URI` or local MongoDB executable.
+- The current seed data remains explicitly labelled demo data; authoritative government scheme data is not claimed.
+- Location scoring uses configured scheme applicability only; real geospatial routing and partner availability are deferred to later phases.
 
 ## Next Step
 According to `docs/phases.md`:
 
-- Begin Phase 3: Scheme Recommendation Engine.
+- Begin Phase 4: Financial Calculator.
