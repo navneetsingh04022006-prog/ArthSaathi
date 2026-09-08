@@ -8,6 +8,8 @@ import eligibilityRouter from './routes/eligibility.routes.js';
 import financialRouter from './routes/financial.routes.js';
 import healthRouter from './routes/health.routes.js';
 import recommendationRouter from './routes/recommendation.routes.js';
+import partnerRouter from './routes/partner.routes.js';
+import schemePartnerRouter from './routes/scheme-partner.routes.js';
 import schemeRouter from './routes/scheme.routes.js';
 
 const app = express();
@@ -28,6 +30,8 @@ app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/eligibility', eligibilityRouter);
 app.use('/api/v1/calculations', financialRouter);
 app.use('/api/v1/recommendations', recommendationRouter);
+app.use('/api/v1/partners', partnerRouter);
+app.use('/api/v1/schemes', schemePartnerRouter);
 app.use('/api/v1/schemes', schemeRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);

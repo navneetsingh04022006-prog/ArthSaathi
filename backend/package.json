@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "nodemon server.js",
 		"start": "node src/server.js",
+		"seed:partners": "node scripts/seedPartners.js",
 		"seed:schemes": "node scripts/seedSchemes.js",
 		"lint": "eslint .",
 		"test": "node --test"
